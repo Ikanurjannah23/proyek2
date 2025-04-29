@@ -106,10 +106,10 @@
 
             <!-- Top Buttons -->
             <div class="top-container">
-                <div class="box">
+                <a href="{{ route('kelola_akun.index') }}" class="box">
                     <i class="fas fa-user"></i>
                     Kelola Akun Pembeli
-                </div>
+                </a>
 
                 <a href="{{ route('kelolastatuspesanan.index') }}" class="box">
                     <i class="fas fa-exchange-alt"></i>

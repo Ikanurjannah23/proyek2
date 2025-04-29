@@ -13,6 +13,8 @@ use App\Http\Controllers\PerlengkapanController;
 use App\Http\Controllers\VitaminKucingController;
 use App\Http\Controllers\AuthController;
 
+use App\Http\Controllers\KelolaAkunController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -78,3 +80,6 @@ Route::post('/login', [AuthController::class, 'login']);
 // Logout - tanpa middleware
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
+
+// Rute untuk Kelola Akun
+Route::resource('kelola_akun', KelolaAkunController::class);
