@@ -2,17 +2,16 @@
 use App\Http\Controllers\BerandaAdminController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\KelolaProdukController;
-use App\Http\Controllers\StatusPesananController;
+use App\Http\Controllers\KelolaKeranjangPesananController;
 use App\Models\KelolaStatusPesanan;
 use App\Http\Controllers\KelolaStatusPesananController;
-use App\Http\Controllers\ProdukController;
+use App\Http\Controllers\LaporanPenjualanController;
 use App\Http\Controllers\ProdukMakananController;
 use App\Http\Controllers\AksesorisController;
 use App\Http\Controllers\ObatobatanController;
 use App\Http\Controllers\PerlengkapanController;
 use App\Http\Controllers\VitaminKucingController;
 use App\Http\Controllers\AuthController;
-
 use App\Http\Controllers\KelolaAkunController;
 
 
@@ -83,3 +82,14 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Rute untuk Kelola Akun
 Route::resource('kelola_akun', KelolaAkunController::class);
+
+// Rute Kelola Keranjang Pesanan
+Route::get('/kelolakeranjangpesanan', [KelolaKeranjangPesananController::class, 'index'])->name('kelolakeranjangpesanan');
+Route::get('/kelolakeranjangpesanan/create', [KelolaKeranjangPesananController::class, 'create'])->name('kelolakeranjangpesanan.create');
+Route::post('/kelolakeranjangpesanan', [KelolaKeranjangPesananController::class, 'store'])->name('kelolakeranjangpesanan.store');  // Rute untuk simpan
+Route::get('/kelolakeranjangpesanan/{id}/edit', [KelolaKeranjangPesananController::class, 'edit'])->name('kelolakeranjangpesanan.edit');  // Rute untuk form edit
+Route::put('/kelolakeranjangpesanan/{id}', [KelolaKeranjangPesananController::class, 'update'])->name('kelolakeranjangpesanan.update');  // Rute untuk update
+
+// Rute Laporan Penjualan
+Route::get('/laporan-penjualan', [LaporanPenjualanController::class, 'index'])->name('laporan_penjualan');
+

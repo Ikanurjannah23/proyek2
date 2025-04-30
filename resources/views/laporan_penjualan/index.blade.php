@@ -1,83 +1,104 @@
-@extends('layouts')
+<!DOCTYPE html>
+<html lang="id">
 
-@section('title', 'Laporan Penjualan')
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan Penjualan</title>
 
-@section('content')
-<style>
-    #laporanTable th,
-    #laporanTable td {
-        border: 1px solid #000;
-        vertical-align: middle;
-        background-color: #E5CBB7;
-    }
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
-    #laporanTable thead th {
-        background-color: #D9D9D9;
-    }
+    <style>
+        body {
+            background: linear-gradient(135deg, #fdfbfb, #ebedee);
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+        }
+        .page-content {
+            padding-top: 160px;
+            padding-bottom: 50px;
+        }
+        .card {
+            border-radius: 15px;
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.1);
+            background: #E5CBB7;
+            border: none;
+            padding: 20px;
+        }
+        .table {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            border-collapse: collapse;
+        }
+        .table th, .table td {
+            border: 1px solid #dee2e6;
+            padding: 12px;
+            vertical-align: middle;
+        }
+        .table th {
+            background: #a7a8a9;
+            color: white;
+        }
+        .table tbody tr:hover {
+            background: rgba(0, 0, 0, 0.03);
+            transform: scale(1.01);
+        }
+    </style>
+</head>
 
-    /* Tambahan styling agar sesuai permintaan */
-    .custom-box {
-        background-color: #D9D9D9 !important;
-    }
+<body>
 
-    .form-select.custom-box {
-        background-color: #D9D9D9 !important;
-    }
-</style>
+    {{-- Navbar --}}
+    @include('layouts.navbar')
 
-<div class="container my-5">
-    <h2 class="text-center fw-bold mb-4">Laporan Penjualan per Bulan</h2>
+    <div class="container page-content">
+        <div class="card">
+            <h2 class="text-center mb-4 fw-bold text-uppercase text-dark">Laporan Penjualan per Bulan</h2>
 
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <div class="border p-3 rounded custom-box">
-            <strong>Total Penjualan Bulan ini</strong><br>
-            <span class="fs-5 fw-bold">Rp. 1.500.000</span>
-        </div>
-
-        <div class="d-flex gap-2">
-            <select class="form-select custom-box">
-                @foreach(['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'] as $bulan)
-                    <option value="{{ $bulan }}" {{ $bulan == 'April' ? 'selected' : '' }}>{{ $bulan }}</option>
-                @endforeach
-            </select>
-            <select class="form-select custom-box">
-                @for ($tahun = 2023; $tahun <= 2028; $tahun++)
-                    <option value="{{ $tahun }}" {{ $tahun == 2025 ? 'selected' : '' }}>{{ $tahun }}</option>
-                @endfor
-            </select>
+            <div class="table-responsive">
+                <table class="table table-hover text-center">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama Produk</th>
+                            <th>Kategori</th>
+                            <th>Jumlah Terjual</th>
+                            <th>Harga Satuan</th>
+                            <th>Total Penjualan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($laporans as $i => $row)
+                            <tr>
+                                <td>{{ $i + 1 }}</td>
+                                <td>{{ $row->nama_produk }}</td>
+                                <td>{{ $row->kategori }}</td>
+                                <td>{{ $row->jumlah_terjual }}</td>
+                                <td>Rp {{ number_format($row->harga_satuan, 0, ',', '.') }}</td>
+                                <td>Rp {{ number_format($row->total_penjualan, 0, ',', '.') }}</td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="6" class="text-danger fw-bold">Data tidak ditemukan.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
-    {{-- TABEL --}}
-    <table class="table text-center mt-4" id="laporanTable">
-        <thead>
-            <tr>
-                <th>No</th>
-                <th>Nama Produk</th>
-                <th>Kategori</th>
-                <th>Jumlah Terjual</th>
-                <th>Harga Satuan</th>
-                <th>Total Penjualan</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>1</td>
-                <td>Whiskas Tuna 1.2 kg</td>
-                <td>Makanan</td>
-                <td>20</td>
-                <td>Rp. 18.000</td>
-                <td>Rp. 360.000</td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Kalung Kucing</td>
-                <td>Aksesoris</td>
-                <td>14</td>
-                <td>Rp. 9.000</td>
-                <td>Rp. 126.000</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-@endsection
+    {{-- Footer --}}
+    @include('layouts.footer')
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

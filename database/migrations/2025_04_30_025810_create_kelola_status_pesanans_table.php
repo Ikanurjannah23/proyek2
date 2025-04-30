@@ -13,15 +13,8 @@ return new class extends Migration
     {
         Schema::create('kelola_status_pesanans', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('akun_id');
-            $table->unsignedBigInteger('produk_id');
-            $table->string('status');
             $table->timestamps();
-        
-            $table->foreign('produk_id')->references('id')->on('produks')->onDelete('cascade');
-            $table->foreign('akun_id')->references('id')->on('akun')->onDelete('cascade');
         });
-        
     }
 
     /**

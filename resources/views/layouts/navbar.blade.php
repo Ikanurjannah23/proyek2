@@ -8,19 +8,19 @@
     </div>
 
     <ul class="nav-links">
-        <li><a href="#">Kelola Akun</a></li>
-        <li><a href="{{ route('kelola.produk') }}" class="{{ request()->routeIs('kelola.produk') ? 'active' : '' }}">Kelola Produk</a></li>
-        <li><a href="#">Kelola Keranjang Pesanan</a></li>
+        <li><a href="{{ route('kelola_akun.index') }}" class="{{ request()->routeIs('kelola_akun*') ? 'active' : '' }}">Kelola Akun</a></li>
+        <li><a href="{{ route('kelola.produk') }}" class="{{ request()->routeIs('produk*') ? 'active' : '' }}">Kelola Produk</a></li>
+        <li><a href="{{ route('kelolakeranjangpesanan') }}" class="{{ request()->routeIs('kelolakeranjangpesanan*') ? 'active' : '' }}">Kelola Keranjang Pesanan</a></li>
         <li><a href="{{ route('beranda.index') }}" class="{{ request()->routeIs('beranda.index') ? 'active' : '' }}">Beranda</a></li>
-        <li><a href="#">Laporan Penjualan</a></li>
-        <li><a href="{{ route('kelolastatuspesanan.index') }}" class="{{ request()->routeIs('kelolastatuspesanan.index') ? 'active' : '' }}">Kelola Status Pesanan</a></li>
+        <li><a href="{{ route('laporan_penjualan') }}" class="{{ request()->routeIs('laporan_penjualan') ? 'active' : '' }}">Laporan Penjualan</a></li>
+        <li><a href="{{ route('kelolastatuspesanan.index') }}" class="{{ request()->routeIs('kelolastatuspesanan*') ? 'active' : '' }}">Kelola Status Pesanan</a></li>
     </ul>
 
     <!-- Ikon Akun -->
     <div class="account-icon" onclick="toggleDropdown()">
         <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-arrow-bar-right" viewBox="0 0 16 16">
             <path fill-rule="evenodd" d="M6 8a.5.5 0 0 0 .5.5h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L12.293 7.5H6.5A.5.5 0 0 0 6 8m-2.5 7a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5"/>
-          </svg>
+        </svg>
         <div class="dropdown-menu" id="dropdownMenu">
             <form action="{{ route('logout') }}" method="POST">
                 @csrf
