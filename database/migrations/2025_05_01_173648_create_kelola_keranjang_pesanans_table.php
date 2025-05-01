@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('kelola_status_pesanans', function (Blueprint $table) {
+        Schema::create('kelola_keranjang_pesanans', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('akun_id');
             $table->unsignedBigInteger('produk_id');
@@ -21,7 +21,6 @@ return new class extends Migration
             $table->foreign('produk_id')->references('id')->on('produks')->onDelete('cascade');
             $table->foreign('akun_id')->references('id')->on('akun')->onDelete('cascade');
         });
-        
     }
 
     /**
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('kelola_status_pesanans');
+        Schema::dropIfExists('kelola_keranjang_pesanans');
     }
 };
