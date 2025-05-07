@@ -126,7 +126,7 @@
 
                 <div class="box">
                     <i class="fas fa-shopping-cart"></i>
-                    Kelola Keranjang Pesanan
+                    kelola Beranda
                 </div>
 
                 <div class="box">

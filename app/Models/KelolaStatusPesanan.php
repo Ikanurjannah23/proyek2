@@ -9,21 +9,19 @@ class KelolaStatusPesanan extends Model
 {
     use HasFactory;
 
-    // Nama tabel di database (HARUS sesuai dengan migration)
-    protected $table = 'kelola_status_pesanans'; 
+    protected $table = 'kelola_status_pesanans';
 
-    // Aktifkan timestamps
-    public $timestamps = true; // Pastikan timestamps aktif
+    public $timestamps = true;
 
-    // Kolom yang bisa diisi (fillable)
     protected $fillable = [
-        'nama_pemesan', 
-        'nama_produk', 
-        'tanggal_pesanan', 
-        'status_pesanan', 
-        'harga'
+        'nama_pemesan',
+        'nama_produk',
+        'tanggal_pesanan',
+        'status_pesanan',
+        'qty',
+        'metode_pembayaran',
+        'harga',
     ];
 
-    // Pastikan Laravel mengenali 'tanggal_pesanan' sebagai tanggal
     protected $dates = ['tanggal_pesanan'];
 }

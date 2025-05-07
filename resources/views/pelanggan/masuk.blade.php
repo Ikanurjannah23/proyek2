@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Khakiel Petshop</title>
+    <title>Masuk - Khakiel Petshop</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
 
@@ -70,15 +70,20 @@
             border-radius: 20px;
             border: 1px solid #ccc;
         }
+        .daftar-link {
+            text-align: center;
+            margin-top: 15px;
+        }
+        .daftar-link a {
+            color: #000;
+            font-weight: 500;
+            text-decoration: underline;
+        }
         footer {
             text-align: center;
             padding: 20px;
             background-color: #E5CBB7;
             font-size: 14px;
-        }
-        .logo {
-            font-weight: bold;
-            font-size: 18px;
         }
         @media (max-width: 768px) {
             .login-card {
@@ -91,7 +96,7 @@
     <div class="login-wrapper">
         <div class="login-card">
             <div class="form-area">
-                <h2 class="text-center">Masuk Admin</h2>
+                <h2 class="text-center">Masuk</h2>
 
                 @if (session('success'))
                     <div class="alert alert-success">
@@ -105,15 +110,11 @@
                     </div>
                 @endif
 
-                <form action="{{ route('login') }}" method="POST">
+                <form action="{{ route('pelanggan.masuk.submit') }}" method="POST">
                     @csrf
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email"
-                               name="email"
-                               class="form-control @error('email') is-invalid @enderror"
-                               value="{{ old('email') }}"
-                               required autofocus>
+                        <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required>
                         @error('email')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -121,9 +122,7 @@
 
                     <div class="mb-3">
                         <label for="password" class="form-label">Sandi</label>
-                        <input type="password"
-                               class="form-control @error('password') is-invalid @enderror"
-                               name="password" required>
+                        <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" required>
                         @error('password')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -131,14 +130,18 @@
 
                     <button type="submit" class="btn btn-login">Masuk</button>
                 </form>
+
+                <div class="daftar-link">
+                    Belum punya akun? <a href="{{ route('pelanggan.daftar') }}">Daftar</a>
+                </div>
             </div>
 
             <div class="image-area">
-                <img src="{{ asset('images/kucing.png') }}" alt="Ilustrasi Login">
+                <img src="{{ asset('images/kucing.png') }}" alt="Ilustrasi Masuk">
             </div>
         </div>
     </div>
 
-        @include('layouts.footer')
-    </body>
-    </html>
+    @include('layouts.footer')
+</body>
+</html>

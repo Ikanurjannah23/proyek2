@@ -73,7 +73,9 @@
             font-weight: bold;
             margin-bottom: 20px;
         }
-
+        .text-danger {
+            font-size: 14px;
+        }
         @media (max-width: 768px) {
             .custom-card {
                 flex-direction: column;
@@ -90,41 +92,76 @@
         <div class="custom-card">
             <div class="form-section">
                 <h3 class="text-center">Edit Status Pemesanan</h3>
+
+                {{-- Pesan Error Validasi --}}
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <strong>Terjadi kesalahan:</strong>
+                        <ul class="mb-0">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
                 <form action="{{ route('kelolastatuspesanan.update', $kelolastatuspesanan->id) }}" method="POST">
                     @csrf
                     @method('PUT')
 
                     <div class="mb-3">
-                        <label class="form-label fw-semibold">ID</label>
-                        <input type="text" class="form-control" value="{{ $kelolastatuspesanan->id }}" disabled>
-                    </div>
-
-                    <div class="mb-3">
                         <label class="form-label fw-semibold">Nama Pemesan</label>
-                        <input type="text" class="form-control" value="{{ $kelolastatuspesanan->nama_pemesan }}" disabled>
-                        <input type="hidden" name="nama_pemesan" value="{{ $kelolastatuspesanan->nama_pemesan }}">
+                        <input type="text" name="nama_pemesan" class="form-control" value="{{ old('nama_pemesan', $kelolastatuspesanan->nama_pemesan) }}">
+                        @error('nama_pemesan')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label fw-semibold">Tanggal Pemesanan</label>
-                        <input type="text" class="form-control"
-                            value="{{ $kelolastatuspesanan->created_at ? $kelolastatuspesanan->created_at->format('d F Y') : '-' }}" disabled>
+                        <label class="form-label fw-semibold">Nama Produk</label>
+                        <input type="text" name="nama_produk" class="form-control" value="{{ old('nama_produk', $kelolastatuspesanan->nama_produk) }}">
+                        @error('nama_produk')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Status Pemesanan</label>
                         <select name="status_pesanan" class="form-control">
-                            <option value="belum diproses" {{ $kelolastatuspesanan->status_pesanan == 'belum diproses' ? 'selected' : '' }}>Belum Diproses</option>
-                            <option value="sedang diproses" {{ $kelolastatuspesanan->status_pesanan == 'sedang diproses' ? 'selected' : '' }}>Sedang Diproses</option>
-                            <option value="selesai" {{ $kelolastatuspesanan->status_pesanan == 'selesai' ? 'selected' : '' }}>Selesai</option>
+                            <option value="belum diproses" {{ old('status_pesanan', $kelolastatuspesanan->status_pesanan) == 'belum diproses' ? 'selected' : '' }}>Belum Diproses</option>
+                            <option value="sedang diproses" {{ old('status_pesanan', $kelolastatuspesanan->status_pesanan) == 'sedang diproses' ? 'selected' : '' }}>Sedang Diproses</option>
+                            <option value="selesai" {{ old('status_pesanan', $kelolastatuspesanan->status_pesanan) == 'selesai' ? 'selected' : '' }}>Selesai</option>
                         </select>
+                        @error('status_pesanan')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Qty</label>
+                        <input type="number" name="qty" class="form-control" value="{{ old('qty', $kelolastatuspesanan->qty) }}">
+                        @error('qty')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Metode Pembayaran</label>
+                        <select name="metode_pembayaran" class="form-control">
+                            <option value="ewallet" {{ old('metode_pembayaran', $kelolastatuspesanan->metode_pembayaran) == 'ewallet' ? 'selected' : '' }}>E-Wallet</option>
+                            <option value="COD" {{ old('metode_pembayaran', $kelolastatuspesanan->metode_pembayaran) == 'COD' ? 'selected' : '' }}>COD</option>
+                        </select>
+                        @error('metode_pembayaran')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Harga</label>
-                        <input type="text" class="form-control"
-                            value="Rp {{ number_format($kelolastatuspesanan->harga, 0, ',', '.') }}" disabled>
-                        <input type="hidden" name="harga" value="{{ $kelolastatuspesanan->harga }}">
+                        <input type="number" name="harga" class="form-control" value="{{ old('harga', $kelolastatuspesanan->harga) }}">
+                        @error('harga')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
                     </div>
 
                     <button type="submit">Simpan</button>
@@ -133,7 +170,6 @@
 
             <div class="image-section">
                 <img src="{{ asset('images/kucing.png') }}" alt="Gambar Pemesanan">
-                {{-- Ganti 'sample-image.jpg' dengan gambar kamu sendiri --}}
             </div>
         </div>
     </div>

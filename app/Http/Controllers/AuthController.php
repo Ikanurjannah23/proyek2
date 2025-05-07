@@ -7,45 +7,48 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    // Tampilkan form login
+    /**
+     * Tampilkan form login admin
+     */
     public function showLoginForm()
     {
-        return view('Auth.login'); // Pastikan view ini ada di: resources/views/Auth/login.blade.php
+        return view('Auth.login'); // resources/views/Auth/login.blade.php
     }
 
-    // Proses login
+    /**
+     * Proses login admin
+     */
     public function login(Request $request)
     {
-        // Validasi input
+        // Validasi input dari form
         $credentials = $request->validate([
             'email'    => ['required', 'email'],
             'password' => ['required'],
         ]);
 
-        // Coba login
+        // Attempt login dengan email dan password
         if (Auth::attempt($credentials)) {
-            $request->session()->regenerate(); // Cegah session fixation
-            
-            // Kirim pesan sukses setelah berhasil login
-            return redirect()->intended('/beranda')->with('success', 'Selamat datang! Anda berhasil login.');
+            $request->session()->regenerate(); // regenerasi session
+
+            return redirect()->intended('/beranda')->with('success', 'Login berhasil!');
         }
 
-        // Kalau gagal login, kirim error dan input kembali
-        return back()
-            ->withErrors([
-                'email' => 'Email atau password salah.',
-            ])
-            ->withInput($request->only('email')); // Menjaga input email setelah gagal login
+        // Jika gagal login, kembalikan ke form login dengan pesan error
+        return back()->withErrors([
+            'email' => 'Email atau password salah.',
+        ])->withInput($request->only('email'));
     }
 
-    // Logout
+    /**
+     * Proses logout
+     */
     public function logout(Request $request)
     {
         Auth::logout();
 
-        $request->session()->invalidate();      // Invalidate session lama
-        $request->session()->regenerateToken(); // Generate CSRF token baru
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
-        return redirect('/login')->with('success', 'Berhasil logout.');
+        return redirect('/loginadmin')->with('success', 'Berhasil logout.');
     }
 }

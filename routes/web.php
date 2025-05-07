@@ -13,7 +13,13 @@ use App\Http\Controllers\PerlengkapanController;
 use App\Http\Controllers\VitaminKucingController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\KelolaAkunController;
-
+use App\Http\Controllers\KelolaBerandaController;
+use App\Http\Controllers\FormPemesananController;
+use App\Http\Controllers\KebutuhanAksesorisController;
+use App\Http\Controllers\KebutuhanObatController;
+use App\Http\Controllers\MakananKucingController;
+use App\Http\Controllers\PaymentController;
+use App\Models\User;
 
 Route::get('/', function () {
     return view('welcome');
@@ -21,7 +27,7 @@ Route::get('/', function () {
 
 
 
-Route::get('/beranda', [BerandaAdminController::class, 'index'])->name('beranda.index');
+Route::get('/beranda', [BerandaAdminController::class, 'index'])->name('index');
 
 
 Route::get('/kelolaproduk', [KelolaProdukController::class, 'index'])->name('kelolaproduk');
@@ -73,8 +79,8 @@ Route::put('/vitaminkucing/{id}', [VitaminKucingController::class, 'update'])->n
 Route::delete('/vitaminkucing/{id}', [VitaminKucingController::class, 'destroy'])->name('vitaminkucing.destroy');
 
 // Halaman Login - tanpa middleware
-Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [AuthController::class, 'login']);
+Route::get('/loginadmin', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/loginadmin', [AuthController::class, 'login']);
 
 // Logout - tanpa middleware
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -83,13 +89,75 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 // Rute untuk Kelola Akun
 Route::resource('kelola_akun', KelolaAkunController::class);
 
-// Rute Kelola Keranjang Pesanan
-Route::get('/kelolakeranjangpesanan', [KelolaKeranjangPesananController::class, 'index'])->name('kelolakeranjangpesanan');
-Route::get('/kelolakeranjangpesanan/create', [KelolaKeranjangPesananController::class, 'create'])->name('kelolakeranjangpesanan.create');
-Route::post('/kelolakeranjangpesanan', [KelolaKeranjangPesananController::class, 'store'])->name('kelolakeranjangpesanan.store');  // Rute untuk simpan
-Route::get('/kelolakeranjangpesanan/{id}/edit', [KelolaKeranjangPesananController::class, 'edit'])->name('kelolakeranjangpesanan.edit');  // Rute untuk form edit
-Route::put('/kelolakeranjangpesanan/{id}', [KelolaKeranjangPesananController::class, 'update'])->name('kelolakeranjangpesanan.update');  // Rute untuk update
 
 // Rute Laporan Penjualan
 Route::get('/laporan-penjualan', [LaporanPenjualanController::class, 'index'])->name('laporan_penjualan');
 
+Route::get('kelolaberanda', [KelolaBerandaController::class, 'index'])->name('kelolaberanda.index');
+Route::get('kelolaberanda/create', [KelolaBerandaController::class, 'create'])->name('kelolaberanda.create');
+Route::post('kelolaberanda', [KelolaBerandaController::class, 'store'])->name('kelolaberanda.store');
+Route::get('kelolaberanda/{id}/edit', [KelolaBerandaController::class, 'edit'])->name('kelolaberanda.edit');
+Route::put('kelolaberanda/{id}', [KelolaBerandaController::class, 'update'])->name('kelolaberanda.update');
+Route::delete('kelolaberanda/{id}', [KelolaBerandaController::class, 'destroy'])->name('kelolaberanda.destroy');
+
+use App\Http\Controllers\BerandaUserController;
+
+// Route untuk halaman utama Beranda
+Route::get('/berandauser', [BerandaUserController::class, 'index'])->name('berandauser');
+
+// Route untuk halaman detail artikel Beranda
+Route::get('/berandauser/{id}', [BerandaUserController::class, 'show'])->name('berandauser.show');
+// routes/web.php
+
+Route::get('/kebutuhan-kucing/makanankucing', [MakananKucingController::class, 'index'])->name('makanankucing');
+Route::get('/kebutuhan-kucing/makanankucing/{id}', [MakananKucingController::class, 'show'])->name('makanankucing.show');
+
+// Menampilkan form pemesanan berdasarkan ID produk
+Route::get('/formpesanan/{jenis}/{id}', [FormPemesananController::class, 'show'])->name('formpesanan.show');
+
+// Menyimpan data pemesanan ke database
+Route::post('/formpesanan/store', [FormPemesananController::class, 'store'])->name('formpesanan.store');
+Route::get('/kebutuhanaksesoris', [KebutuhanAksesorisController::class, 'index'])->name('kebutuhanaksesoris');
+Route::get('/kebutuhanaksesoris/{id}', [KebutuhanAksesorisController::class, 'show'])->name('kebutuhanaksesoris.show');
+
+use App\Http\Controllers\KebutuhanPerlengkapanController;
+
+Route::get('/kebutuhanperlengkapan', [KebutuhanPerlengkapanController::class, 'index'])->name('kebutuhanperlengkapan');
+Route::get('/detailkebutuhanperlengkapan/{id}', [KebutuhanPerlengkapanController::class, 'show'])->name('detailkebutuhanperlengkapan');
+
+Route::get('/kebutuhanobat', [KebutuhanObatController::class, 'index'])->name('kebutuhanobat');
+Route::get('/kebutuhanobat/{id}', [KebutuhanObatController::class, 'show'])->name('kebutuhanobat.show');
+
+use App\Http\Controllers\KebutuhanVitaminController;
+use App\Http\Controllers\PelangganController;
+
+Route::get('/kebutuhanvitamin', [KebutuhanVitaminController::class, 'index'])->name('kebutuhanvitamin');
+Route::get('/kebutuhanvitamin/{id}', [KebutuhanVitaminController::class, 'show'])->name('kebutuhanvitamin.show');
+
+use App\Http\Controllers\PesananController;
+
+Route::get('/pesanan', [PesananController::class, 'index'])->name('pesanan');
+Route::get('/pesanan/{id}', [PesananController::class, 'show'])->name('pesanan.show');
+
+
+
+// Rute untuk halaman login
+Route::get('/login', [PelangganController::class, 'showMasuk'])->name('pelanggan.masuk');
+
+// Rute untuk proses login
+Route::post('/login', [PelangganController::class, 'masuk'])->name('pelanggan.masuk.submit');
+
+// Rute untuk halaman pendaftaran
+Route::get('/register', [PelangganController::class, 'showDaftar'])->name('pelanggan.daftar');
+
+// Rute untuk proses pendaftaran
+Route::post('/register', [PelangganController::class, 'daftar'])->name('pelanggan.daftar.submit');
+
+// Rute untuk logout
+Route::post('/logout', [PelangganController::class, 'keluar'])->name('pelanggan.keluar');
+
+
+Route::get('/formpesanan/resume', [FormPemesananController::class, 'resume'])->name('formpesanan.resume');
+
+Route::get('/keranjang', [FormPemesananController::class, 'keranjangPesanan'])->name('keranjang.pesanan');
+Route::delete('/keranjang/{id}', [FormPemesananController::class, 'hapusPesanan'])->name('keranjang.hapus');

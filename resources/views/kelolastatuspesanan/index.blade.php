@@ -111,7 +111,7 @@
 
     <div class="container page-content">
         <div class="card">
-            <h2 class="text-center mb-4 fw-bold text-uppercase text-dark">Kelola Status Pesanan</h2>
+            <h2 class="text-center mb-4 fw-bold text-uppercase text-dark">Kelola Pesanan</h2>
             <div class="table-responsive">
                 <table class="table table-hover text-center">
                     <thead>
@@ -121,7 +121,9 @@
                             <th>Nama Produk</th>
                             <th>Tanggal Pesanan</th>
                             <th>Status</th>
-                            <th>Harga</th>
+                            <th>Qty</th>
+                            <th>Jumlah</th>
+                            <th>Metode Pembayaran</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -144,7 +146,9 @@
                                     {{ ucfirst($status->status_pesanan) }}
                                 </span>
                             </td>
-                            <td>Rp {{ number_format($status->harga, 0, ',', '.') }}</td>
+                            <td>{{ $status->qty }}</td>  <!-- Menampilkan jumlah qty -->
+                            <td>Rp {{ number_format($status->harga * $status->qty, 0, ',', '.') }}</td>  <!-- Menampilkan jumlah harga x qty -->
+                            <td>{{ ucfirst($status->metode_pembayaran) }}</td>  <!-- Menampilkan metode pembayaran -->
                             <td>
                                 <a href="{{ route('kelolastatuspesanan.edit', $status->id) }}" class="btn btn-sm btn-edit">Edit</a>
                                 <form action="{{ route('kelolastatuspesanan.destroy', $status->id) }}" method="POST" style="display:inline;">

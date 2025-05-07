@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kelola Keranjang Pesanan</title>
-    
-    <!-- Bootstrap -->
+    <title>Data Artikel Beranda</title>
+
+    {{-- Bootstrap --}}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- FontAwesome -->
+    {{-- FontAwesome --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <!-- Google Fonts -->
+    {{-- Google Fonts --}}
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
     <style>
@@ -30,10 +30,12 @@
             padding: 20px;
         }
         .table {
+            border-collapse: collapse;
             width: 100%;
+            border-radius: 10px;
+            overflow: hidden;
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(8px);
-            border-collapse: collapse;
         }
         .table th, .table td {
             border: 1px solid #dee2e6;
@@ -43,10 +45,10 @@
         .table th {
             background: #a7a8a9;
             color: white;
+            font-weight: 600;
         }
         .table tbody tr:hover {
             background: rgba(0, 0, 0, 0.03);
-            transform: scale(1.01);
         }
         .btn {
             padding: 8px 16px;
@@ -85,52 +87,56 @@
 
     <div class="container page-content">
         <div class="card">
-            <h2 class="text-center mb-4 fw-bold text-uppercase text-dark">Kelola Keranjang Pesanan</h2>
+            <h2 class="text-center mb-4 fw-bold text-uppercase text-dark">Data Artikel Beranda</h2>
 
             <div class="search-bar">
-                <div>
-                    <a href="{{ route('kelolakeranjangpesanan.create') }}" class="btn btn-success">+ Tambah Keranjang</a>
-                </div>
+                <a href="{{ route('kelolaberanda.create') }}" class="btn btn-success">+ Tambah Artikel</a>
                 <div class="col-md-4">
                     <div class="input-group">
-                        <input type="text" id="searchInput" class="form-control" placeholder="Cari Nama Akun atau Produk..." style="border-right: none;">
-                        <span class="input-group-text bg-white" style="border-left: none;">
-                            <i class="fas fa-paw"></i>
-                        </span>
+                        <input type="text" id="searchInput" class="form-control" placeholder="Cari Judul Artikel...">
+                        <span class="input-group-text bg-white"><i class="fas fa-paw"></i></span>
                     </div>
                 </div>
             </div>
 
             @if (session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
-                </div>
+                <div class="alert alert-success">{{ session('success') }}</div>
             @endif
 
             <div class="table-responsive">
-                <table class="table table-hover text-center" id="keranjangTable">
+                <table class="table table-hover text-center" id="artikelTable">
                     <thead>
                         <tr>
-                            <th>ID Keranjang</th>
-                            <th>Nama Akun Pembeli</th>
-                            <th>Nama Produk</th>
-                            <th>Jumlah</th>
+                            <th>ID</th>
+                            <th>Judul</th>
+                            <th>Tanggal</th>
+                            <th>Deskripsi Singkat</th>
+                            <th>Isi Artikel</th>
+                            <th>Gambar</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($keranjangPesanans as $k)
+                        @foreach($artikels as $a)
                         <tr>
-                            <td>{{ $k->id }}</td>
-                            <td>{{ $k->user->nama ?? '-' }}</td>
-                            <td>{{ $k->produk->nama ?? '-' }}</td>
-                            <td>{{ $k->jumlah }}</td>
+                            <td>{{ $a->id }}</td>
+                            <td>{{ $a->judul }}</td>
+                            <td>{{ \Carbon\Carbon::parse($a->tanggal)->translatedFormat('d F Y') }}</td>
+                            <td>{{ Str::limit($a->deskripsi_singkat, 50) }}</td>
+                            <td>{{ Str::limit($a->isi_artikel, 50) }}</td>
                             <td>
-                                <a href="{{ route('kelolakeranjangpesanan.edit', $k->id) }}" class="btn btn-sm btn-edit">Edit</a>
-                                <form action="{{ route('kelolakeranjangpesanan.destroy', $k->id) }}" method="POST" style="display:inline;">
+                                @if($a->gambar)
+                                    <img src="{{ asset('storage/'.$a->gambar) }}" alt="Gambar Artikel" width="60" class="rounded">
+                                @else
+                                    <small>Tidak ada</small>
+                                @endif
+                            </td>
+                            <td>
+                                <a href="{{ route('kelolaberanda.edit', $a->id) }}" class="btn btn-sm btn-edit">Edit</a>
+                                <form action="{{ route('kelolaberanda.destroy', $a->id) }}" method="POST" style="display:inline;">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-hapus" onclick="return confirm('Yakin ingin menghapus keranjang ini?')">Hapus</button>
+                                    <button type="submit" class="btn btn-sm btn-hapus" onclick="return confirm('Yakin ingin menghapus artikel ini?')">Hapus</button>
                                 </form>
                             </td>
                         </tr>
@@ -139,7 +145,7 @@
                 </table>
 
                 <div id="notFoundMessage" class="text-center fw-bold text-danger mt-3" style="display: none;">
-                    Tidak ditemukan.
+                    Artikel tidak ditemukan.
                 </div>
             </div>
         </div>
@@ -148,9 +154,10 @@
     {{-- Footer --}}
     @include('layouts.footer')
 
+    {{-- Script Search --}}
     <script>
         const searchInput = document.getElementById('searchInput');
-        const tableRows = document.querySelectorAll('#keranjangTable tbody tr');
+        const tableRows = document.querySelectorAll('#artikelTable tbody tr');
         const notFoundMessage = document.getElementById('notFoundMessage');
 
         searchInput.addEventListener('keyup', function() {
@@ -158,9 +165,8 @@
             let found = false;
 
             tableRows.forEach(function(row) {
-                const namaUser = row.cells[1].textContent.toLowerCase();
-                const namaProduk = row.cells[2].textContent.toLowerCase();
-                if (namaUser.includes(searchText) || namaProduk.includes(searchText)) {
+                const judul = row.cells[1].textContent.toLowerCase();
+                if (judul.includes(searchText)) {
                     row.style.display = '';
                     found = true;
                 } else {
