@@ -151,9 +151,9 @@ public function hapusPesanan($id)
     return view('pelanggan.pembayaran', compact('snapToken'));
 }
 
-
     private function getNamaProduk($produk)
     {
         return $produk->nama_produk ?? $produk->nama;
     }
 }
+

@@ -45,8 +45,7 @@
         width: 100vw;
         font-size: 14px;
         margin-top: auto;
-        position: fixed;
-        bottom: 0;
+        position: relative;
         left: 0;
         font-family: 'Poppins', sans-serif;
     }
