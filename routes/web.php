@@ -157,16 +157,30 @@ Route::post('/register', [PelangganController::class, 'daftar'])->name('pelangga
 // Rute untuk logout
 Route::post('/logout', [PelangganController::class, 'keluar'])->name('pelanggan.keluar');
 
+
 Route::post('/formpesanan/resume', [FormPemesananController::class, 'resume'])->name('formpesanan.resume');
 Route::get('/formpesanan/resume', [FormPemesananController::class, 'resume'])->name('formpesanan.resume');
 
 Route::get('/profile', [KelolaAkunController::class, 'profil'])->name('profil');
+
+
+// Misalnya, jika kamu ingin mengakses dengan POST
+Route::post('/formpesanan/resume', [FormPemesananController::class, 'resume'])->name('formpesanan.resume');
+
+Route::get('/formpesanan/resume', [FormPemesananController::class, 'resume'])->name('formpesanan.resume');
+
+Route::get('/keranjang', [FormPemesananController::class, 'keranjangPesanan'])->name('keranjang.pesanan');
+Route::delete('/keranjang/{id}', [FormPemesananController::class, 'hapusPesanan'])->name('keranjang.hapus');
+
+// baru
+
 Route::prefix('formpesanan')->group(function () {
     Route::post('/pembayaran', [FormPemesananController::class, 'pembayaran'])->name('formpesanan.pembayaran');
     Route::get('/resume', [FormPemesananController::class, 'resume'])->name('formpesanan.resume');
     Route::post('/store', [FormPemesananController::class, 'store'])->name('formpesanan.store');
     Route::get('/show/{jenis}/{id}', [FormPemesananController::class, 'show'])->name('formpesanan.show');
 });
+
 
 
 Route::post('/simpan-pesanan', [KelolaStatusPesananController::class, 'simpanPesanan']);
@@ -182,3 +196,5 @@ Route::get('/produkmakanan/cari', [ProdukMakananController::class, 'cari'])->nam
 Route::post('/kelolastatuspesanan/kirimwa', [KelolaStatusPesananController::class, 'kirimWaManual'])->name('kelolastatuspesanan.kirimwa');
 Route::post('/kelolastatuspesanan/kirimwa', [KelolaStatusPesananController::class, 'kirimWaManual'])
     ->name('kelolastatuspesanan.kirimwa');
+
+
