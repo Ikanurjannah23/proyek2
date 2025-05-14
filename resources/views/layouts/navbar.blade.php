@@ -13,7 +13,7 @@
         <li><a href="{{ route('index') }}" class="{{ request()->routeIs('index') ? 'active' : '' }}">Beranda</a></li>
         <li><a href="{{ route('laporan_penjualan') }}" class="{{ request()->routeIs('laporan_penjualan') ? 'active' : '' }}">Laporan Penjualan</a></li>
         <li><a href="{{ route('kelolastatuspesanan.index') }}" class="{{ request()->routeIs('kelolastatuspesanan*') ? 'active' : '' }}">Kelola Pesanan</a></li>
-        <li><a href="">Kelola Beranda</a></li>
+        <li><a href="{{ route('kelolaberanda.index') }}">Kelola Beranda</a></li>
     </ul>
 
     <!-- Ikon Akun -->

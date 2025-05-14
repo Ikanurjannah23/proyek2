@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 use App\Models\KelolaAkun;
 use Illuminate\Http\Request;
 
@@ -28,7 +29,6 @@ class KelolaAkunController extends Controller
             'role' => 'required'
         ]);
 
-        // pastikan password di-hash saat create
         KelolaAkun::create([
             'nama' => $request->nama,
             'email' => $request->email,
@@ -38,6 +38,8 @@ class KelolaAkunController extends Controller
 
         return redirect()->route('kelola_akun.index')->with('success', 'Akun berhasil ditambahkan.');
     }
+
+
 
     public function edit($id)
     {

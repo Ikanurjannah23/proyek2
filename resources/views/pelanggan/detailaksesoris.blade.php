@@ -130,9 +130,9 @@
             <div class="d-flex gap-3 mb-3 flex-wrap">
                 {{-- Tombol Pesan --}}
                 <a href="{{ route('formpesanan.show', ['jenis' => 'aksesoris', 'id' => $aksesoris->id]) }}" class="btn-shop"><i class="bi bi-cart-check"></i> Pesan Sekarang</a>
-
-                {{-- Tombol Keranjang (opsional, tidak aktif) --}}
                 <button class="btn-add-cart"><i class="bi bi-plus-circle"></i> Tambah ke Keranjang</button>
+                {{-- Tombol Keranjang (opsional, tidak aktif) --}}
+              
             </div>
 
             <p class="text-muted mt-3">Stok tersedia: <strong>{{ $aksesoris->jumlah_stok }}</strong></p>

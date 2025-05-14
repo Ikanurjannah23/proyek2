@@ -9,12 +9,15 @@ class KelolaStatusPesanan extends Model
 {
     use HasFactory;
 
+    // Nama tabel sesuai konvensi jamak Laravel
     protected $table = 'kelola_status_pesanans';
 
     public $timestamps = true;
 
     protected $fillable = [
         'nama_pemesan',
+        'no_telepon',
+        'alamat', // tambahkan field alamat
         'nama_produk',
         'tanggal_pesanan',
         'status_pesanan',

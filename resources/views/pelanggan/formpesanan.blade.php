@@ -122,7 +122,7 @@
                     <select name="metode_pembayaran" id="metode_pembayaran" class="form-select" required>
                         <option value="">-- Pilih Metode --</option>
                         <option value="COD">COD</option>
-                        <option value="Dana">E-Wallet</option>
+                        <option value="E-Wallet">E-Wallet</option>
                     </select>
                 </div>
 

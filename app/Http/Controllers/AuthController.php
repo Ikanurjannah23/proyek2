@@ -19,25 +19,26 @@ class AuthController extends Controller
      * Proses login admin
      */
     public function login(Request $request)
-    {
-        // Validasi input dari form
-        $credentials = $request->validate([
-            'email'    => ['required', 'email'],
-            'password' => ['required'],
-        ]);
+{
+    $credentials = $request->validate([
+        'email'    => ['required', 'email'],
+        'password' => ['required'],
+    ]);
 
-        // Attempt login dengan email dan password
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate(); // regenerasi session
+    // DEBUGGING
+    dd($credentials, Auth::attempt($credentials), Auth::user());
 
-            return redirect()->intended('/beranda')->with('success', 'Login berhasil!');
-        }
+    if (Auth::attempt($credentials)) {
+        $request->session()->regenerate();
 
-        // Jika gagal login, kembalikan ke form login dengan pesan error
-        return back()->withErrors([
-            'email' => 'Email atau password salah.',
-        ])->withInput($request->only('email'));
+        return redirect()->intended('/beranda')->with('success', 'Login berhasil!');
     }
+
+    return back()->withErrors([
+        'email' => 'Email atau password salah.',
+    ])->withInput($request->only('email'));
+}
+
 
     /**
      * Proses logout

@@ -4,6 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\VitaminKucing;
 use Illuminate\Http\Request;
+use App\Models\ProdukMakanan;
+use App\Models\Aksesoris;
+use App\Models\ObatObatan;  // Menambahkan model ObatObatan
+use App\Models\Perlengkapan;  // Menambahkan model Perlengkapan
+
 
 class VitaminKucingController extends Controller
 {
@@ -12,7 +17,43 @@ class VitaminKucingController extends Controller
         $vitamins = VitaminKucing::all();
         return view('vitaminkucing.index', compact('vitamins')); // Pastikan $vitamins dikirim ke view
     }
-
+    public function tambahKeranjang($id, $kategori)
+    {
+        // Ambil produk berdasarkan ID dan kategori
+        $produk = null;
+        switch ($kategori) {
+            case 'makanan':
+                $produk = ProdukMakanan::find($id);
+                break;
+            case 'aksesoris':
+                $produk = Aksesoris::find($id);
+                break;
+            case 'vitamin':
+                $produk = VitaminKucing::find($id);
+                break;
+            case 'obatobatan':
+                $produk = ObatObatan::find($id);
+                break;
+            case 'perlengkapan':
+                $produk = Perlengkapan::find($id);
+                break;
+        }
+    
+        // Simpan produk yang dipilih ke session
+        if ($produk) {
+            $keranjang = session()->get('keranjang', []);
+            $keranjang[] = [
+                'id' => $produk->id,
+                'kategori' => $kategori,
+            ];
+    
+            session()->put('keranjang', $keranjang);
+        }
+    
+        // Redirect ke halaman keranjang pelanggan
+        return redirect()->route('pelanggan.keranjang');
+    }
+    
 
     public function create()
     {

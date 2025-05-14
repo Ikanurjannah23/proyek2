@@ -89,4 +89,15 @@ class ProdukMakananController extends Controller
 
         return redirect()->route('produkmakanan.index')->with('success', 'Produk berhasil dihapus!');
     }
+    public function cari(Request $request)
+{
+    $keyword = $request->search;
+
+    // Ambil data produk berdasarkan keyword pencarian
+    $produks = ProdukMakanan::where('nama_produk', 'like', "%{$keyword}%")->get();
+
+    // Kirimkan hasil ke view partial (hanya bagian tabel)
+    return view('pelanggan.partialproduk', compact('produks'));
+}
+
 }

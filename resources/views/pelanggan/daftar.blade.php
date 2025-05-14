@@ -128,7 +128,6 @@
                     Sudah punya akun? <a href="{{ url('/login') }}">Masuk</a>
                 </div>
             </div>
-
             <div class="image-area">
                 <img src="{{ asset('images/kucing.png') }}" alt="Ilustrasi Daftar">
             </div>

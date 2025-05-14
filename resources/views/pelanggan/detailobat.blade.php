@@ -129,7 +129,8 @@
             <p class="product-price">Rp {{ number_format($obat->harga, 0, ',', '.') }}</p>
 
             <div class="d-flex gap-3 mb-3 flex-wrap">
-                <a href="{{ route('formpesanan.show', ['jenis' => 'obatobatan', 'id' => $obatobatan->id]) }}" class="btn-shop"><i class="bi bi-cart-check"></i> Pesan Sekarang</a>
+                <a href="{{ route('formpesanan.show', ['jenis' => 'obat', 'id' => $obat->id]) }}" class="btn-shop"><i class="bi bi-cart-check"></i> Pesan Sekarang</a>
+
                 <button class="btn-add-cart"><i class="bi bi-plus-circle"></i> Tambah ke Keranjang</button>
             </div>
 

@@ -28,7 +28,7 @@ class FormPemesananController extends Controller
             'alamat' => 'required',
             'no_telepon' => 'required',
             'qty' => 'required|numeric|min:1',
-            'metode_pembayaran' => 'required|in:COD,Dana',
+            'metode_pembayaran' => 'required|in:COD,E-Wallet',
             'tanggal_pesan' => 'required|date',
             'produk_id' => 'required',
             'jenis' => 'required',
@@ -98,7 +98,7 @@ public function resume()
     public function keranjangPesanan()
 {
     $pesanan = KelolaStatusPesanan::latest()->get(); // bisa disesuaikan, misalnya hanya untuk user tertentu
-    return view('pelanggan.keranjangpesanan', compact('pesanan'));
+    return view('pelanggan.keranjang', compact('pesanan'));
 }
 // FormPemesananController.php
 

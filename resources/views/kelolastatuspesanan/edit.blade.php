@@ -5,18 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Status Pemesanan</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        body {
+        html, body {
+            min-height: 100vh;
             background-color: #fdfaf3;
             font-family: 'Poppins', sans-serif;
             color: #333;
+            margin: 0;
         }
         .container-wrapper {
-            min-height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             padding: 40px 15px;
+            padding-bottom: 100px; /* Jaga jarak dengan footer */
         }
         .custom-card {
             background: #E5CBB7;
@@ -29,11 +32,10 @@
             max-width: 1000px;
             width: 100%;
         }
-        .form-section {
-            flex: 1;
+        .form-section, .image-section {
+            flex: 1 1 50%;
         }
         .image-section {
-            flex: 1;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -51,10 +53,6 @@
         .form-control:focus, select:focus {
             box-shadow: 0 0 0 0.2rem rgba(255, 159, 67, 0.25);
             border-color: #ff9f43;
-        }
-        select {
-            cursor: pointer;
-            background-color: #fff;
         }
         button {
             background: #000000;
@@ -118,9 +116,33 @@
                     </div>
 
                     <div class="mb-3">
+                        <label class="form-label fw-semibold">Alamat</label>
+                        <input type="text" name="alamat" class="form-control" value="{{ old('alamat', $kelolastatuspesanan->alamat) }}">
+                        @error('alamat')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">No Telepon</label>
+                        <input type="text" name="no_telepon" class="form-control" value="{{ old('no_telepon', $kelolastatuspesanan->no_telepon) }}">
+                        @error('no_telepon')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
                         <label class="form-label fw-semibold">Nama Produk</label>
                         <input type="text" name="nama_produk" class="form-control" value="{{ old('nama_produk', $kelolastatuspesanan->nama_produk) }}">
                         @error('nama_produk')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Tanggal Pesanan</label>
+                        <input type="date" name="tanggal_pesanan" class="form-control" value="{{ old('tanggal_pesanan', $kelolastatuspesanan->tanggal_pesanan) }}">
+                        @error('tanggal_pesanan')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
@@ -131,6 +153,7 @@
                             <option value="belum diproses" {{ old('status_pesanan', $kelolastatuspesanan->status_pesanan) == 'belum diproses' ? 'selected' : '' }}>Belum Diproses</option>
                             <option value="sedang diproses" {{ old('status_pesanan', $kelolastatuspesanan->status_pesanan) == 'sedang diproses' ? 'selected' : '' }}>Sedang Diproses</option>
                             <option value="selesai" {{ old('status_pesanan', $kelolastatuspesanan->status_pesanan) == 'selesai' ? 'selected' : '' }}>Selesai</option>
+                            <option value="pesanan dibatalkan" {{ old('status_pesanan', $kelolastatuspesanan->status_pesanan) == 'pesanan dibatalkan' ? 'selected' : '' }}>Pesanan Dibatalkan</option>
                         </select>
                         @error('status_pesanan')
                             <div class="text-danger">{{ $message }}</div>

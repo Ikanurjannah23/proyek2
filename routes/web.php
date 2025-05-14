@@ -20,6 +20,7 @@ use App\Http\Controllers\KebutuhanObatController;
 use App\Http\Controllers\MakananKucingController;
 use App\Http\Controllers\PaymentController;
 use App\Models\User;
+use App\Http\Controllers\MidtransCallbackController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -80,7 +81,7 @@ Route::delete('/vitaminkucing/{id}', [VitaminKucingController::class, 'destroy']
 
 // Halaman Login - tanpa middleware
 Route::get('/loginadmin', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('/loginadmin', [AuthController::class, 'login']);
+Route::post('/loginadmin', [AuthController::class, 'login'])->name('loginadmin');
 
 // Logout - tanpa middleware
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -156,8 +157,28 @@ Route::post('/register', [PelangganController::class, 'daftar'])->name('pelangga
 // Rute untuk logout
 Route::post('/logout', [PelangganController::class, 'keluar'])->name('pelanggan.keluar');
 
-
+Route::post('/formpesanan/resume', [FormPemesananController::class, 'resume'])->name('formpesanan.resume');
 Route::get('/formpesanan/resume', [FormPemesananController::class, 'resume'])->name('formpesanan.resume');
 
-Route::get('/keranjang', [FormPemesananController::class, 'keranjangPesanan'])->name('keranjang.pesanan');
-Route::delete('/keranjang/{id}', [FormPemesananController::class, 'hapusPesanan'])->name('keranjang.hapus');
+Route::get('/profile', [KelolaAkunController::class, 'profil'])->name('profil');
+Route::prefix('formpesanan')->group(function () {
+    Route::post('/pembayaran', [FormPemesananController::class, 'pembayaran'])->name('formpesanan.pembayaran');
+    Route::get('/resume', [FormPemesananController::class, 'resume'])->name('formpesanan.resume');
+    Route::post('/store', [FormPemesananController::class, 'store'])->name('formpesanan.store');
+    Route::get('/show/{jenis}/{id}', [FormPemesananController::class, 'show'])->name('formpesanan.show');
+});
+
+
+Route::post('/simpan-pesanan', [KelolaStatusPesananController::class, 'simpanPesanan']);
+
+
+Route::post('/midtrans/callback', [MidtransCallbackController::class, 'handle']);
+
+
+
+Route::post('/simpan-pesanan', [KelolaStatusPesananController::class, 'simpanPesanan'])->name('simpan.pesanan');
+
+Route::get('/produkmakanan/cari', [ProdukMakananController::class, 'cari'])->name('produkmakanan.cari');
+Route::post('/kelolastatuspesanan/kirimwa', [KelolaStatusPesananController::class, 'kirimWaManual'])->name('kelolastatuspesanan.kirimwa');
+Route::post('/kelolastatuspesanan/kirimwa', [KelolaStatusPesananController::class, 'kirimWaManual'])
+    ->name('kelolastatuspesanan.kirimwa');

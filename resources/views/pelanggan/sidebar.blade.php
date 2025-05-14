@@ -77,7 +77,7 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             list-style: none;
             padding: 10px 0;
-            z-index: 1001;
+            z-index: 1001;  /* Ensure it is on top */
         }
 
         .dropdown-menu li a {
@@ -121,32 +121,11 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            position: relative;
         }
 
         .account-actions svg {
             cursor: pointer;
             color: #2c3e50;
-        }
-
-        .dropdown-menu-logout {
-            display: none;
-            position: absolute;
-            top: 40px;
-            right: 0;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            padding: 10px;
-            z-index: 2000;
-        }
-
-        .dropdown-menu-logout button {
-            background: none;
-            border: none;
-            color: #333;
-            font-size: 14px;
-            cursor: pointer;
         }
     </style>
 </head>
@@ -176,13 +155,12 @@
         </li>
         <li><a href="{{ route('berandauser') }}">Beranda</a></li>
         <li><a href="{{ route('pesanan') }}">Pesanan</a></li>
-        <li><a href="#">Notifikasi Pembayaran</a></li>
     </ul>
 
     <!-- Search + Aksi Akun -->
     <div class="right-section">
         <div class="search-box">
-            <form action="#" method="GET">
+            <form action="{{ route('produkmakanan.cari') }}" method="GET">
                 <input type="text" name="search" placeholder="Cari produk..." />
             </form>
         </div>
@@ -195,18 +173,23 @@
                 </svg>
             </a>
 
-            <!-- Profil -->
-            <div onclick="toggleLogoutDropdown()" title="Profil">
-                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
-                    <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
-                </svg>
-                <div class="dropdown-menu-logout" id="dropdownLogout">
-                    <form action="#" method="POST">
-                        @csrf
-                        <button type="submit">Logout</button>
-                    </form>
-                </div>
-            </div>
+           <!-- Profil Dropdown -->
+<div class="dropdown">
+    <a href="#" title="Profil">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+            <path d="M3 14s-1 0-1-1 1-4 6-4 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+        </svg>
+    </a>
+    <ul class="dropdown-menu">
+        <li><a href="#">Informasi Akun</a></li>
+        <li><a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a></li>
+    </ul>
+</div>
+
+            <!-- Logout Form -->
+            <form id="logout-form" action="#" method="POST" style="display: none;">
+                @csrf
+            </form>
         </div>
     </div>
 </nav>
@@ -215,20 +198,16 @@
 <script>
     function toggleDropdown(event) {
         event.preventDefault();
+        event.stopPropagation();  // Prevent closing on clicking inside the dropdown
         const menu = event.target.nextElementSibling;
         const isOpen = menu.style.display === 'block';
         document.querySelectorAll('.dropdown-menu').forEach(m => m.style.display = 'none');
         menu.style.display = isOpen ? 'none' : 'block';
     }
 
-    function toggleLogoutDropdown() {
-        const menu = document.getElementById('dropdownLogout');
-        menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
-    }
-
     window.addEventListener('click', function(e) {
-        if (!e.target.closest('.dropdown') && !e.target.closest('.account-actions')) {
-            document.querySelectorAll('.dropdown-menu, .dropdown-menu-logout').forEach(m => m.style.display = 'none');
+        if (!e.target.closest('.dropdown')) {
+            document.querySelectorAll('.dropdown-menu').forEach(m => m.style.display = 'none');
         }
     });
 </script>

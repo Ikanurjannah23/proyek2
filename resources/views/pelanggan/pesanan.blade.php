@@ -12,9 +12,9 @@
             font-size: 15px;
         }
         .container {
-            max-width: 1000px;
+            max-width: 1140px; /* Diperlebar */
             margin: 40px auto;
-            padding: 30px;
+            padding: 30px 20px; /* Tambah padding horizontal agar tidak terlalu mepet */
         }
         h2 {
             font-weight: 700;
@@ -42,7 +42,7 @@
         .badge-warning { background-color: #ffc107; }
         .badge-success { background-color: #28a745; }
         .badge-dark { background-color: #343a40; }
-
+    
         /* Custom pagination style */
         .pagination .page-item.active .page-link {
             background-color: #ffffff;
@@ -54,6 +54,7 @@
             margin: 0 4px;
         }
     </style>
+    
 </head>
 <body>
 
@@ -69,12 +70,13 @@
                     <tr>
                         <th>No</th>
                         <th>Nama Pemesan</th>
+                        <th>No Telepon</th> <!-- Tambahan -->
                         <th>Produk</th>
                         <th>Qty</th>
                         <th>Harga</th>
                         <th>Status</th>
                         <th>Metode</th>
-                        <th>Waktu</th>
+                        <th>Tanggal Pesanan</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -82,6 +84,7 @@
                         <tr>
                             <td>{{ $pesanan->firstItem() + $index }}</td>
                             <td>{{ $item->nama_pemesan }}</td>
+                            <td>{{ $item->no_telepon ?? '-' }}</td> <!-- Menampilkan no telepon -->
                             <td>{{ $item->nama_produk }}</td>
                             <td>{{ $item->qty }}</td>
                             <td>Rp {{ number_format($item->harga, 0, ',', '.') }}</td>
@@ -102,10 +105,11 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="8" class="text-center text-muted">Belum ada pesanan.</td>
+                            <td colspan="9" class="text-center text-muted">Belum ada pesanan.</td>
                         </tr>
                     @endforelse
                 </tbody>
+                
             </table>
         </div>
 
